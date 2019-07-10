@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { confirmations: 'confirmations' }
-  mount RailsAdmin::Engine => '/admin', as: '/rails_admin'
+  devise_for :users, controllers: { confirmations: 'confirmations', sessions: 'sessions' }
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'static_pages/home'
   get '/terms', to: 'static_pages#terms'
   get '/privacidad', to: 'static_pages#privacidad'
@@ -22,4 +22,10 @@ Rails.application.routes.draw do
 
   get 'cities/:country', to: 'divipola#states'
   get 'cities/:country/:state', to: 'divipola#cities'
+
+  resources :events
+  resources :pages
+
+  get '/:event_id/:page_path', to: 'static_pages#prepare_render'
+
 end

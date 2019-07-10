@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[name lastname terms_of_service])
     devise_parameter_sanitizer.permit(:account_update, keys: %i[name lastname])
+    devise_parameter_sanitizer.permit(:sign_in, keys: %i[:email password actual_event])
   end
 
   def after_sign_in_path_for(_user)
@@ -18,8 +19,15 @@ class ApplicationController < ActionController::Base
   def require_login
     unless user_signed_in?
       # TODO: flash doesnt work
-      flash[:error] = 'debes estar logueado para ver esto'
+      flash[:notice] = 'debes estar logueado para ver esto'
       redirect_to new_user_session_path
+    end
+  end
+
+  def require_admin_login
+    unless (user_signed_in? and current_user.admin)
+      flash[:error] = 'no tienes acceso a esta pagina'
+      redirect_to(:home)
     end
   end
 end

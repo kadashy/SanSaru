@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_24_232923) do
+ActiveRecord::Schema.define(version: 2019_07_01_005999) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,25 @@ ActiveRecord::Schema.define(version: 2018_07_24_232923) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "fullname", null: false
+    t.string "site", null: false
+    t.string "support_mail", null: false
+    t.integer "participants", null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.decimal "reserve_price", precision: 8, scale: 2
+    t.decimal "ideal_price", precision: 8, scale: 2
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.string "venue", null: false
+    t.string "venue_location", null: false
+    t.string "monkeys", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active"
+  end
+
   create_table "favorites", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "favorite_user_id"
@@ -81,6 +100,15 @@ ActiveRecord::Schema.define(version: 2018_07_24_232923) do
     t.index ["invited_one_id"], name: "index_invitations_on_invited_one_id"
     t.index ["invited_two_id"], name: "index_invitations_on_invited_two_id"
     t.index ["user_id"], name: "index_invitations_on_user_id", unique: true
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "path"
+    t.text "content"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_pages_on_event_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -136,6 +164,7 @@ ActiveRecord::Schema.define(version: 2018_07_24_232923) do
     t.datetime "confirmation_sent_at"
     t.boolean "organizer", default: false, null: false
     t.boolean "terms_of_service", default: false
+    t.integer "actual_event_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["profile_id"], name: "index_users_on_profile_id"
@@ -154,4 +183,5 @@ ActiveRecord::Schema.define(version: 2018_07_24_232923) do
   end
 
   add_foreign_key "invitations", "users"
+  add_foreign_key "users", "events", column: "actual_event_id"
 end

@@ -1,5 +1,5 @@
 RailsAdmin.config do |config|
-  config.main_app_name = ['San Saru', 'AOC - Chile']
+  config.main_app_name = ['San saru', "AOC 2019 Bariloche"]
 
   ### Popular gems integration
 
@@ -43,4 +43,5 @@ RailsAdmin.config do |config|
     history_index
     history_show
   end
+
 end

@@ -35,6 +35,7 @@ group :development, :test do
   gem 'haml-lint', require: false
   gem 'rubocop', require: false
   gem 'selenium-webdriver'
+  gem 'dotenv-rails'
 end
 
 group :development do

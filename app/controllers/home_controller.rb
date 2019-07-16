@@ -54,6 +54,7 @@ end
 
   # GET /profiles/new
   def new
+    @aoc_name = helpers.aoc_name
     @profile = current_user.profile || Profile.new
   end
 
